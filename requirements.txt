@@ -1,0 +1,6 @@
+mcp[sse]
+httpx
+uvicorn
+fastapi
+sse-starlette
+hypercorn

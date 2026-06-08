@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info:
+  title: Cocktail MCP Server
+  description: |
+    A Model Context Protocol (MCP) server providing cocktail recipes and ingredient information.
+    This server implements the MCP over SSE transport.
+  version: 1.0.0
+servers:
+  - url: https://cocktail-mcp-server-593899410363.europe-west1.run.app
+    description: Production Cloud Run deployment
+paths:
+  /:
+    get:
+      summary: Health check
+      responses:
+        '200':
+          description: Server is running
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /sse:
+    get:
+      summary: Establish SSE connection
+      description: Initiates the MCP session over Server-Sent Events.
+      responses:
+        '200':
+          description: SSE stream established
+  /messages/:
+    post:
+      summary: Process MCP messages
+      description: Sends JSON-RPC messages to the server (tool calls, initialization, etc.).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200':
+          description: Message processed
+components:
+  schemas:
+    CocktailTool:
+      type: object
+      properties:
+        get_cocktail_instructions:
+          description: Get making instructions for a given cocktail
+        explain_ingredient:
+          description: Explain what an ingredient is and its characteristics
